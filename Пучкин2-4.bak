@@ -1,0 +1,7 @@
+#lang scheme/base
+
+(define (fun2-4 lst h1 h2)
+  (cond ((or (> h1 h2) (null? lst)) 0)
+        ((and (= h1 0) (> (car lst) 0)) (+ 1 (+ (map (lambda (x) (fun2-4 x (- h1 1) (- h2 1))) (cdr lst)))))
+        ((= h1 0) (+ (map (lambda (x) (fun2-4 x (- h1 1) (- h2 1))) (cdr lst))))
+        (else (+ (map (lambda (x) (fun2-4 x (- h1 1) (- h2 1))) (cdr lst))))))

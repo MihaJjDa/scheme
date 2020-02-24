@@ -1,0 +1,7 @@
+#lang scheme/base
+
+(define (zip a b)
+  (cond ((and (null? a) (null? b)) '())
+        ((null? a) (cons (list '() (car b)) (zip '() (cdr b))))
+        ((null? b) (cons (list (car a) '()) (zip (cdr a) '())))
+        (else (cons (list (car a) (car b)) (zip (cdr a) (cdr b))))))

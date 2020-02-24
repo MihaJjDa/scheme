@@ -1,0 +1,15 @@
+#lang scheme/base
+
+(define (list-fib-squares-loop n)
+  (define (loop i f1 f2)
+    (
+(map (lambda (x)
+       (let ((temp (fib x))) (* temp temp))
+ (enumerate-interval 1 n)))
+
+(define (fib2 n)
+  (define (loop i sqrfibs fib2 fib1)
+    (if (null? lst) sqrfibs
+        (loop (cdr lst) (+ fib-n-1 fib-n-2) fib-n-1)))
+  (loop n 1 0))
+

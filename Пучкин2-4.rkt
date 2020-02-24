@@ -1,0 +1,33 @@
+#lang scheme/base
+
+(define (fun2-4 lst h1 h2)
+  (cond ((or (< h1 h2) (< h1 0) (null? lst)) 0)
+        ((and (<= h2 0) (>= h1 0)) (if (> (car lst) 0)
+                            (+ 1 (foldl + 0 (map (lambda (x) (fun2-4 x (- h1 1) (- h2 1))) (cdr lst))))
+                            (foldl + 0 (map (lambda (x) (fun2-4 x (- h1 1) (- h2 1))) (cdr lst)))))
+        (else (foldl + 0 (map (lambda (x) (fun2-4 x (- h1 1) (- h2 1))) (cdr lst))))))
+
+(define (fun2-5 lst h1 h2)
+  (cond ((or (< h1 h2) (< h1 0) (null? lst)) 0)
+        ((and (<= h2 0) (>= h1 0))
+         (if (number? (car lst))
+             (if (> (car lst) 0)
+                 (+ 1 (fun2-5 (cdr lst) (- h1 1) (- h2 1)))
+                 (fun2-5 (cdr lst) (- h1 1) (- h2 1)))
+             (+ (fun2-5 (car lst) h1 h2) (fun2-5 (cdr lst) h1 h2))))
+        (else (if (number? (car lst))
+                  (fun2-5 (cdr lst) (- h1 1) (- h2 1))
+                  (+ (fun2-5 (car lst) h1 h2) (fun2-5 (cdr lst) h1 h2))))))
+
+(define (fun2-5-cps lst h1 h2 cc)
+  (cond ((or (< h1 h2) (< h1 0) (null? lst)) (cc 0))
+        ((and (<= h2 0) (>= h1 0))
+         (if (number? (car lst))
+             (if (> (car lst) 0)
+                 (fun2-5-cps (cdr lst) (- h1 1) (- h2 1) (lambda (x) (cc (+ 1 x))))
+                 (fun2-5-cps (cdr lst) (- h1 1) (- h2 1) (lambda (x) (cc x))))
+             (fun2-5-cps (car lst) h1 h2 (lambda (x) (fun2-5-cps (cdr lst) h1 h2 (lambda (y) (cc (+ x y))))))))
+        (else (if (number? (car lst))
+                  (fun2-5-cps (cdr lst) (- h1 1) (- h2 1) (lambda (x) (cc x)))
+                  (fun2-5-cps (car lst) h1 h2
+                              (lambda (x) (fun2-5-cps (cdr lst) h1 h2 (lambda (y) (cc (+ x y))))))))))

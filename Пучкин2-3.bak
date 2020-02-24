@@ -1,0 +1,5 @@
+#lang scheme/base
+
+(define (nFib n s)
+  (if (< n (car s)) (cdr s)
+      (nFib n (cons (+ (car s) (cadr s)) (cdr s)))))
